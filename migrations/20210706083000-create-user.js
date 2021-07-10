@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.ENUM('admin','supervisor','basic')
       },
       mobile: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       gender: {
         type: Sequelize.ENUM('MALE','FEMALE')

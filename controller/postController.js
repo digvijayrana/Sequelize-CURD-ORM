@@ -13,22 +13,24 @@ function save(req,res){
         address:req.body.address,
         permanentAddress:req.body.permanent,
         designation:req.body.designation,
-        photo:req.file.files,
-        status:req.body.status
+        photo:req.file.filename,
+        status:req.body.status,      
     }
-
     const schema = {
-        photo:{type:file,optional:false},
-        name:{type:"string",optional:false,max:"100"},
-        email:{type:"string",optional:false,max:"500"},
-        mobile:{type:"number",optional:false},
+         name:{type:"string",optional:false,max:"100"},
+        email:{type:"email",optional:false,max:"500"},
+        mobile:{type:"string",optional:false,max:"10",positive: true, },
         date:{type:"string",optional:false,max:"100"},
         dateOfJoing:{type:"string",optional:false,max:"100"},
         address:{type:"string",optional:false,max:"100"},
         permanentAddress:{type:"string",optional:false,max:"100"},
-        designation:{type:"string",optional:false,max:"100"},
-    
+        designation:{type:"string",optional:false,max:"100"} ,
+        role:{type:"string",optional:false,max:"100"},
+        gender:{type:"string",optional:false,max:"100"},
+        status:{type:"string",optional:false,max:"100"}, 
+       
 }
+
 const v = new Validater();
 const validationResponse = v.validate(post,schema);
 if(validationResponse!==true){
@@ -37,7 +39,6 @@ if(validationResponse!==true){
         errors:validationResponse
     })
 }
-
     models.User.create(post).then(result =>{
         res.status(201).json({
             message:"Post created successfully",
@@ -101,16 +102,6 @@ function update(req,res){
     }
 
 
-const v = new Validater();
-const validationResponse = v.validate(post,schema);
-if(validationResponse!==true){
-    return res.status(400).json({
-        message:"validation failed",
-        errors:validationResponse
-    })
-}
-
-   
     models.User.update(updatedPost,{where:{id:id} })
     .then(result =>{
         res.status(200).json({
